@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_quiz_options",
+  "info": {
+    "displayName": "Options"
+  },
+  "options": {},
+  "attributes": {
+    "Answer": {
+      "type": "string"
+    },
+    "IsCorrect": {
+      "type": "boolean"
+    }
+  }
+}

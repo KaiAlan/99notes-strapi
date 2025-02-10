@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_shared_comments",
+  "info": {
+    "displayName": "Comment",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "commentData": {
+      "type": "blocks"
+    },
+    "upvotes": {
+      "type": "integer",
+      "default": 0
+    },
+    "downvotes": {
+      "type": "integer"
+    }
+  }
+}
