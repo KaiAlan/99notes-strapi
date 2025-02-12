@@ -1,5 +1,41 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface ArticleArticleInformation extends Struct.ComponentSchema {
+  collectionName: 'components_article_article_informations';
+  info: {
+    description: '';
+    displayName: 'Article Information';
+  };
+  attributes: {
+    authors: Schema.Attribute.Relation<'oneToMany', 'api::author.author'>;
+    categories: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::category.category'
+    >;
+    date: Schema.Attribute.Date;
+    readingTime: Schema.Attribute.String;
+  };
+}
+
+export interface ArticleQuiz extends Struct.ComponentSchema {
+  collectionName: 'components_article_quizzes';
+  info: {
+    displayName: 'Quiz';
+  };
+  attributes: {
+    categories: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::category.category'
+    >;
+    date: Schema.Attribute.Date;
+    explanation: Schema.Attribute.RichText;
+    options: Schema.Attribute.Component<'quiz.options', true>;
+    question: Schema.Attribute.RichText;
+    quiz_name: Schema.Attribute.String;
+    tags: Schema.Attribute.Relation<'oneToMany', 'api::tag.tag'>;
+  };
+}
+
 export interface QuizOptions extends Struct.ComponentSchema {
   collectionName: 'components_quiz_options';
   info: {
@@ -116,6 +152,8 @@ export interface SharedSlider extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
+      'article.article-information': ArticleArticleInformation;
+      'article.quiz': ArticleQuiz;
       'quiz.options': QuizOptions;
       'shared.comment': SharedComment;
       'shared.media': SharedMedia;

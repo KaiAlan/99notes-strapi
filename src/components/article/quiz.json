@@ -1,0 +1,36 @@
+{
+  "collectionName": "components_article_quizzes",
+  "info": {
+    "displayName": "Quiz"
+  },
+  "options": {},
+  "attributes": {
+    "quiz_name": {
+      "type": "string"
+    },
+    "question": {
+      "type": "richtext"
+    },
+    "options": {
+      "type": "component",
+      "repeatable": true,
+      "component": "quiz.options"
+    },
+    "explanation": {
+      "type": "richtext"
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::category.category"
+    },
+    "tags": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::tag.tag"
+    },
+    "date": {
+      "type": "date"
+    }
+  }
+}

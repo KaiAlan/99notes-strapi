@@ -4,7 +4,7 @@
   "info": {
     "singularName": "quizz",
     "pluralName": "quizzes",
-    "displayName": "Quizz",
+    "displayName": "Practice Questions",
     "description": ""
   },
   "options": {
@@ -44,6 +44,12 @@
     "explanation": {
       "type": "richtext",
       "required": true
+    },
+    "practice_question_tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tag.tag",
+      "mappedBy": "practice_questions"
     }
   }
 }

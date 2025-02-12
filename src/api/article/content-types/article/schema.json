@@ -33,12 +33,6 @@
         "videos"
       ]
     },
-    "author": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::author.author",
-      "inversedBy": "articles"
-    },
     "blocks": {
       "type": "dynamiczone",
       "components": [
@@ -49,35 +43,27 @@
         "shared.rich-editor"
       ]
     },
-    "article": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::article.article",
-      "inversedBy": "quiz"
-    },
-    "quiz": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::article.article",
-      "mappedBy": "article"
-    },
-    "categories": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::category.category",
-      "inversedBy": "articles"
-    },
-    "tags": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::tag.tag",
-      "mappedBy": "articles"
-    },
     "Comments": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::comment.comment",
       "mappedBy": "article"
+    },
+    "Article_Information": {
+      "type": "component",
+      "repeatable": false,
+      "component": "article.article-information"
+    },
+    "tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tag.tag",
+      "inversedBy": "articles"
+    },
+    "quiz": {
+      "type": "component",
+      "repeatable": true,
+      "component": "article.quiz"
     }
   }
 }

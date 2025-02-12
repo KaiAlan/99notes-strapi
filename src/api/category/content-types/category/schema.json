@@ -18,12 +18,6 @@
     "slug": {
       "type": "uid"
     },
-    "articles": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::article.article",
-      "mappedBy": "categories"
-    },
     "description": {
       "type": "text"
     },

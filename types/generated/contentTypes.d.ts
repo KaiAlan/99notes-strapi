@@ -410,8 +410,10 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    article: Schema.Attribute.Relation<'oneToOne', 'api::article.article'>;
-    author: Schema.Attribute.Relation<'manyToOne', 'api::author.author'>;
+    Article_Information: Schema.Attribute.Component<
+      'article.article-information',
+      false
+    >;
     blocks: Schema.Attribute.DynamicZone<
       [
         'shared.media',
@@ -420,10 +422,6 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
         'shared.slider',
         'shared.rich-editor',
       ]
-    >;
-    categories: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::category.category'
     >;
     Comments: Schema.Attribute.Relation<'oneToMany', 'api::comment.comment'>;
     cover: Schema.Attribute.Media<'images' | 'files' | 'videos'>;
@@ -441,7 +439,7 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    quiz: Schema.Attribute.Relation<'oneToOne', 'api::article.article'>;
+    quiz: Schema.Attribute.Component<'article.quiz', true>;
     slug: Schema.Attribute.UID<'title'>;
     tags: Schema.Attribute.Relation<'manyToMany', 'api::tag.tag'>;
     title: Schema.Attribute.String;
@@ -463,7 +461,6 @@ export interface ApiAuthorAuthor extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
-    articles: Schema.Attribute.Relation<'oneToMany', 'api::article.article'>;
     avatar: Schema.Attribute.Media<'images' | 'files' | 'videos'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -495,7 +492,6 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
-    articles: Schema.Attribute.Relation<'manyToMany', 'api::article.article'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -586,39 +582,11 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   };
 }
 
-export interface ApiPracticeQuestionPracticeQuestion
-  extends Struct.CollectionTypeSchema {
-  collectionName: 'practice_questions';
-  info: {
-    displayName: 'Practice Questions';
-    pluralName: 'practice-questions';
-    singularName: 'practice-question';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::practice-question.practice-question'
-    > &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiQuizzQuizz extends Struct.CollectionTypeSchema {
   collectionName: 'quizzes';
   info: {
     description: '';
-    displayName: 'Quizz';
+    displayName: 'Practice Questions';
     pluralName: 'quizzes';
     singularName: 'quizz';
   };
@@ -637,6 +605,10 @@ export interface ApiQuizzQuizz extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     options: Schema.Attribute.Component<'quiz.options', true> &
       Schema.Attribute.Required;
+    practice_question_tags: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::tag.tag'
+    >;
     publishedAt: Schema.Attribute.DateTime;
     question: Schema.Attribute.RichText & Schema.Attribute.Required;
     quiz_name: Schema.Attribute.String & Schema.Attribute.Required;
@@ -650,6 +622,7 @@ export interface ApiQuizzQuizz extends Struct.CollectionTypeSchema {
 export interface ApiTagTag extends Struct.CollectionTypeSchema {
   collectionName: 'tags';
   info: {
+    description: '';
     displayName: 'Tags';
     pluralName: 'tags';
     singularName: 'tag';
@@ -666,9 +639,12 @@ export interface ApiTagTag extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::tag.tag'> &
       Schema.Attribute.Private;
     Name: Schema.Attribute.String;
+    practice_questions: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::quizz.quizz'
+    >;
     publishedAt: Schema.Attribute.DateTime;
     quizzes: Schema.Attribute.Relation<'manyToMany', 'api::quizz.quizz'>;
-    slug: Schema.Attribute.UID;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1191,7 +1167,6 @@ declare module '@strapi/strapi' {
       'api::category.category': ApiCategoryCategory;
       'api::comment.comment': ApiCommentComment;
       'api::global.global': ApiGlobalGlobal;
-      'api::practice-question.practice-question': ApiPracticeQuestionPracticeQuestion;
       'api::quizz.quizz': ApiQuizzQuizz;
       'api::tag.tag': ApiTagTag;
       'plugin::content-releases.release': PluginContentReleasesRelease;

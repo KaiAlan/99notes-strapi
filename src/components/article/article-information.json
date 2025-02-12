@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_article_article_informations",
+  "info": {
+    "displayName": "Article Information",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "categories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::category.category"
+    },
+    "date": {
+      "type": "date"
+    },
+    "readingTime": {
+      "type": "string"
+    },
+    "authors": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::author.author"
+    }
+  }
+}
