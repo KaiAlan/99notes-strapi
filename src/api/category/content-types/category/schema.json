@@ -26,6 +26,12 @@
     },
     "description": {
       "type": "text"
+    },
+    "quizzes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::quizz.quizz",
+      "mappedBy": "category"
     }
   }
 }

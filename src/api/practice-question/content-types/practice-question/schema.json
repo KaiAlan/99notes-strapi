@@ -10,12 +10,5 @@
     "draftAndPublish": true
   },
   "pluginOptions": {},
-  "attributes": {
-    "options": {
-      "displayName": "Multiple Optios",
-      "type": "component",
-      "repeatable": true,
-      "component": "quiz.multiple-optios"
-    }
-  }
+  "attributes": {}
 }
