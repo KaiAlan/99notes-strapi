@@ -1,21 +1,14 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
-export interface QuizMultipleOptios extends Struct.ComponentSchema {
-  collectionName: 'components_quiz_multiple_optios';
-  info: {
-    displayName: 'Multiple Optios';
-  };
-  attributes: {};
-}
-
 export interface QuizOptions extends Struct.ComponentSchema {
   collectionName: 'components_quiz_options';
   info: {
+    description: '';
     displayName: 'Options';
   };
   attributes: {
-    Answer: Schema.Attribute.String;
     IsCorrect: Schema.Attribute.Boolean;
+    Option: Schema.Attribute.String;
   };
 }
 
@@ -123,7 +116,6 @@ export interface SharedSlider extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
-      'quiz.multiple-optios': QuizMultipleOptios;
       'quiz.options': QuizOptions;
       'shared.comment': SharedComment;
       'shared.media': SharedMedia;

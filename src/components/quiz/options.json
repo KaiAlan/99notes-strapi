@@ -1,11 +1,12 @@
 {
   "collectionName": "components_quiz_options",
   "info": {
-    "displayName": "Options"
+    "displayName": "Options",
+    "description": ""
   },
   "options": {},
   "attributes": {
-    "Answer": {
+    "Option": {
       "type": "string"
     },
     "IsCorrect": {

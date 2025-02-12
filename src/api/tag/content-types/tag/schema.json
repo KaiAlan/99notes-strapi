@@ -22,6 +22,12 @@
       "relation": "manyToMany",
       "target": "api::article.article",
       "inversedBy": "tags"
+    },
+    "quizzes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::quizz.quizz",
+      "mappedBy": "tags"
     }
   }
 }
