@@ -4,7 +4,7 @@
   "info": {
     "singularName": "tag",
     "pluralName": "tags",
-    "displayName": "Tags",
+    "displayName": "Tag",
     "description": ""
   },
   "options": {
@@ -12,14 +12,8 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "Name": {
+    "name": {
       "type": "string"
-    },
-    "quizzes": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::quizz.quizz",
-      "mappedBy": "tags"
     },
     "articles": {
       "type": "relation",

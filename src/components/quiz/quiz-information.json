@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_quiz_quiz_informations",
+  "info": {
+    "displayName": "Quiz Information"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "date": {
+      "type": "date"
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::category.category"
+    }
+  }
+}

@@ -15,12 +15,6 @@
     "CommentText": {
       "type": "richtext"
     },
-    "User": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "comments"
-    },
     "Upvotes": {
       "type": "integer"
     },
