@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "quizes",
+  "info": {
+    "singularName": "quiz",
+    "pluralName": "quizes",
+    "displayName": "Quiz",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "free",
+        "paid"
+      ],
+      "default": "free"
+    },
+    "article": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::article.article",
+      "inversedBy": "quizzes"
+    },
+    "question": {
+      "type": "component",
+      "repeatable": true,
+      "component": "quiz.quiz-body"
+    },
+    "user_quiz_attempts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::user-quiz-attempt.user-quiz-attempt",
+      "mappedBy": "quiz"
+    }
+  }
+}

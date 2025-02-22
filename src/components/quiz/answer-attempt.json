@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_quiz_answer_attempt_s",
+  "info": {
+    "displayName": "AnswerAttempt ",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "question": {
+      "type": "string"
+    },
+    "selectedOption": {
+      "type": "integer"
+    },
+    "answer": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "quiz_attemptes",
+  "info": {
+    "singularName": "quiz-attempte",
+    "pluralName": "quiz-attemptes",
+    "displayName": "Quiz Attempt",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "article": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::article.article",
+      "inversedBy": "quiz_attempts"
+    },
+    "attempted_questions": {
+      "type": "json"
+    },
+    "correct_count": {
+      "type": "integer"
+    },
+    "wrong_count": {
+      "type": "integer"
+    },
+    "unattempted_count": {
+      "type": "integer"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "quiz_attempts"
+    },
+    "free_quiz_data": {
+      "type": "json"
+    },
+    "elo_change": {
+      "type": "integer"
+    }
+  }
+}

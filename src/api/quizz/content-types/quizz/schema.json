@@ -19,18 +19,6 @@
     "date": {
       "type": "date"
     },
-    "category": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::category.category",
-      "inversedBy": "quizzes"
-    },
-    "tags": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::tag.tag",
-      "inversedBy": "quizzes"
-    },
     "question": {
       "type": "richtext",
       "required": true

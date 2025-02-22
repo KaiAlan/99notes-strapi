@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_quiz_free_quizs",
+  "info": {
+    "displayName": "Free Quiz",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "quiz_information": {
+      "type": "component",
+      "repeatable": false,
+      "component": "quiz.quiz-information"
+    },
+    "quiz_body": {
+      "type": "component",
+      "repeatable": true,
+      "component": "quiz.quiz-body"
+    }
+  }
+}

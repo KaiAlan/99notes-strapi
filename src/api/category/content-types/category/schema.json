@@ -21,10 +21,10 @@
     "description": {
       "type": "text"
     },
-    "quizzes": {
+    "articles": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::quizz.quizz",
+      "target": "api::article.article",
       "mappedBy": "category"
     }
   }

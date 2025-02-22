@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_quiz_quiz_bodies",
+  "info": {
+    "displayName": "Quiz Body"
+  },
+  "options": {},
+  "attributes": {
+    "question": {
+      "type": "blocks"
+    },
+    "options": {
+      "type": "component",
+      "repeatable": true,
+      "component": "quiz.options"
+    },
+    "explanation": {
+      "type": "text"
+    }
+  }
+}

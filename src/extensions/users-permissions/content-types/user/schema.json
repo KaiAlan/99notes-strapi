@@ -9,7 +9,7 @@
     "displayName": "User"
   },
   "options": {
-    "timestamps": true
+    "draftAndPublish": false
   },
   "attributes": {
     "username": {
@@ -65,11 +65,21 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "comments": {
+    "quiz_attempts": {
       "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::comment.comment",
-      "mappedBy": "User"
+      "relation": "oneToMany",
+      "target": "api::quiz-attempte.quiz-attempte",
+      "mappedBy": "user"
+    },
+    "eloRating": {
+      "type": "integer",
+      "default": 100
+    },
+    "user_quiz_attempts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::user-quiz-attempt.user-quiz-attempt",
+      "mappedBy": "users_permissions_user"
     }
   }
 }

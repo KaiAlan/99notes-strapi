@@ -423,6 +423,7 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
         'shared.rich-editor',
       ]
     >;
+    category: Schema.Attribute.Relation<'manyToOne', 'api::category.category'>;
     Comments: Schema.Attribute.Relation<'oneToMany', 'api::comment.comment'>;
     cover: Schema.Attribute.Media<'images' | 'files' | 'videos'>;
     createdAt: Schema.Attribute.DateTime;
@@ -439,7 +440,11 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    quiz: Schema.Attribute.Component<'article.quiz', true>;
+    quiz_attempts: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::quiz-attempte.quiz-attempte'
+    >;
+    quizzes: Schema.Attribute.Relation<'oneToMany', 'api::quiz.quiz'>;
     slug: Schema.Attribute.UID<'title'>;
     tags: Schema.Attribute.Relation<'manyToMany', 'api::tag.tag'>;
     title: Schema.Attribute.String;
@@ -492,6 +497,7 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
+    articles: Schema.Attribute.Relation<'oneToMany', 'api::article.article'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -504,7 +510,6 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     name: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
-    quizzes: Schema.Attribute.Relation<'oneToMany', 'api::quizz.quizz'>;
     slug: Schema.Attribute.UID;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -543,10 +548,6 @@ export interface ApiCommentComment extends Struct.CollectionTypeSchema {
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     Upvotes: Schema.Attribute.Integer;
-    User: Schema.Attribute.Relation<
-      'manyToMany',
-      'plugin::users-permissions.user'
-    >;
   };
 }
 
@@ -582,6 +583,79 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiQuizAttempteQuizAttempte
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'quiz_attemptes';
+  info: {
+    description: '';
+    displayName: 'Quiz Attempt';
+    pluralName: 'quiz-attemptes';
+    singularName: 'quiz-attempte';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    article: Schema.Attribute.Relation<'manyToOne', 'api::article.article'>;
+    attempted_questions: Schema.Attribute.JSON;
+    correct_count: Schema.Attribute.Integer;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    elo_change: Schema.Attribute.Integer;
+    free_quiz_data: Schema.Attribute.JSON;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::quiz-attempte.quiz-attempte'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    unattempted_count: Schema.Attribute.Integer;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    wrong_count: Schema.Attribute.Integer;
+  };
+}
+
+export interface ApiQuizQuiz extends Struct.CollectionTypeSchema {
+  collectionName: 'quizes';
+  info: {
+    description: '';
+    displayName: 'Quiz';
+    pluralName: 'quizes';
+    singularName: 'quiz';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    article: Schema.Attribute.Relation<'manyToOne', 'api::article.article'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::quiz.quiz'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    question: Schema.Attribute.Component<'quiz.quiz-body', true>;
+    type: Schema.Attribute.Enumeration<['free', 'paid']> &
+      Schema.Attribute.DefaultTo<'free'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user_quiz_attempts: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::user-quiz-attempt.user-quiz-attempt'
+    >;
+  };
+}
+
 export interface ApiQuizzQuizz extends Struct.CollectionTypeSchema {
   collectionName: 'quizzes';
   info: {
@@ -594,7 +668,6 @@ export interface ApiQuizzQuizz extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    category: Schema.Attribute.Relation<'manyToOne', 'api::category.category'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -612,7 +685,6 @@ export interface ApiQuizzQuizz extends Struct.CollectionTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     question: Schema.Attribute.RichText & Schema.Attribute.Required;
     quiz_name: Schema.Attribute.String & Schema.Attribute.Required;
-    tags: Schema.Attribute.Relation<'manyToMany', 'api::tag.tag'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -623,7 +695,7 @@ export interface ApiTagTag extends Struct.CollectionTypeSchema {
   collectionName: 'tags';
   info: {
     description: '';
-    displayName: 'Tags';
+    displayName: 'Tag';
     pluralName: 'tags';
     singularName: 'tag';
   };
@@ -638,16 +710,55 @@ export interface ApiTagTag extends Struct.CollectionTypeSchema {
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::tag.tag'> &
       Schema.Attribute.Private;
-    Name: Schema.Attribute.String;
+    name: Schema.Attribute.String;
     practice_questions: Schema.Attribute.Relation<
       'manyToMany',
       'api::quizz.quizz'
     >;
     publishedAt: Schema.Attribute.DateTime;
-    quizzes: Schema.Attribute.Relation<'manyToMany', 'api::quizz.quizz'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiUserQuizAttemptUserQuizAttempt
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'user_quiz_attempts';
+  info: {
+    description: '';
+    displayName: 'UserQuizAttempt';
+    pluralName: 'user-quiz-attempts';
+    singularName: 'user-quiz-attempt';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    attempted_questions: Schema.Attribute.JSON;
+    correct_answers: Schema.Attribute.Integer;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    elo_change: Schema.Attribute.Integer;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::user-quiz-attempt.user-quiz-attempt'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    quiz: Schema.Attribute.Relation<'manyToOne', 'api::quiz.quiz'>;
+    total_questions: Schema.Attribute.Integer;
+    unattempted_questions: Schema.Attribute.Integer;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    wrong_answers: Schema.Attribute.Integer;
   };
 }
 
@@ -1106,16 +1217,15 @@ export interface PluginUsersPermissionsUser
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    comments: Schema.Attribute.Relation<'manyToMany', 'api::comment.comment'>;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    eloRating: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<100>;
     email: Schema.Attribute.Email &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMaxLength<{
@@ -1134,6 +1244,10 @@ export interface PluginUsersPermissionsUser
       }>;
     provider: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
+    quiz_attempts: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::quiz-attempte.quiz-attempte'
+    >;
     resetPasswordToken: Schema.Attribute.String & Schema.Attribute.Private;
     role: Schema.Attribute.Relation<
       'manyToOne',
@@ -1142,6 +1256,10 @@ export interface PluginUsersPermissionsUser
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    user_quiz_attempts: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::user-quiz-attempt.user-quiz-attempt'
+    >;
     username: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique &
@@ -1167,8 +1285,11 @@ declare module '@strapi/strapi' {
       'api::category.category': ApiCategoryCategory;
       'api::comment.comment': ApiCommentComment;
       'api::global.global': ApiGlobalGlobal;
+      'api::quiz-attempte.quiz-attempte': ApiQuizAttempteQuizAttempte;
+      'api::quiz.quiz': ApiQuizQuiz;
       'api::quizz.quizz': ApiQuizzQuizz;
       'api::tag.tag': ApiTagTag;
+      'api::user-quiz-attempt.user-quiz-attempt': ApiUserQuizAttemptUserQuizAttempt;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

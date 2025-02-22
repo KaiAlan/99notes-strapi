@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_quiz_paid_quizs",
+  "info": {
+    "displayName": "Paid Quiz"
+  },
+  "options": {},
+  "attributes": {
+    "quiz_information": {
+      "type": "component",
+      "repeatable": false,
+      "component": "quiz.quiz-information"
+    },
+    "quiz_body": {
+      "type": "component",
+      "repeatable": false,
+      "component": "quiz.quiz-body"
+    }
+  }
+}

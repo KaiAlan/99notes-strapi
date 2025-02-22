@@ -60,10 +60,23 @@
       "target": "api::tag.tag",
       "inversedBy": "articles"
     },
-    "quiz": {
-      "type": "component",
-      "repeatable": true,
-      "component": "article.quiz"
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "articles"
+    },
+    "quiz_attempts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::quiz-attempte.quiz-attempte",
+      "mappedBy": "article"
+    },
+    "quizzes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::quiz.quiz",
+      "mappedBy": "article"
     }
   }
 }

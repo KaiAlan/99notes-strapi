@@ -36,15 +36,101 @@ export interface ArticleQuiz extends Struct.ComponentSchema {
   };
 }
 
+export interface QuizAnswerAttempt extends Struct.ComponentSchema {
+  collectionName: 'components_quiz_answer_attempt_s';
+  info: {
+    description: '';
+    displayName: 'AnswerAttempt ';
+  };
+  attributes: {
+    answer: Schema.Attribute.String;
+    question: Schema.Attribute.String;
+    selectedOption: Schema.Attribute.Integer;
+  };
+}
+
+export interface QuizFreeQuiz extends Struct.ComponentSchema {
+  collectionName: 'components_quiz_free_quizs';
+  info: {
+    description: '';
+    displayName: 'Free Quiz';
+  };
+  attributes: {
+    quiz_body: Schema.Attribute.Component<'quiz.quiz-body', true>;
+    quiz_information: Schema.Attribute.Component<
+      'quiz.quiz-information',
+      false
+    >;
+  };
+}
+
 export interface QuizOptions extends Struct.ComponentSchema {
   collectionName: 'components_quiz_options';
   info: {
     description: '';
-    displayName: 'Options';
+    displayName: 'Quiz Options';
   };
   attributes: {
-    IsCorrect: Schema.Attribute.Boolean;
-    Option: Schema.Attribute.String;
+    is_correct: Schema.Attribute.Boolean;
+    option: Schema.Attribute.String;
+  };
+}
+
+export interface QuizPaidQuiz extends Struct.ComponentSchema {
+  collectionName: 'components_quiz_paid_quizs';
+  info: {
+    displayName: 'Paid Quiz';
+  };
+  attributes: {
+    quiz_body: Schema.Attribute.Component<'quiz.quiz-body', false>;
+    quiz_information: Schema.Attribute.Component<
+      'quiz.quiz-information',
+      false
+    >;
+  };
+}
+
+export interface QuizQuizAttempt extends Struct.ComponentSchema {
+  collectionName: 'components_quiz_quiz_attempts';
+  info: {
+    displayName: 'QuizAttempt';
+  };
+  attributes: {
+    article: Schema.Attribute.Relation<'oneToOne', 'api::article.article'>;
+    quiz: Schema.Attribute.Integer;
+    score: Schema.Attribute.Integer;
+    timestamp: Schema.Attribute.DateTime;
+    user: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
+export interface QuizQuizBody extends Struct.ComponentSchema {
+  collectionName: 'components_quiz_quiz_bodies';
+  info: {
+    displayName: 'Quiz Body';
+  };
+  attributes: {
+    explanation: Schema.Attribute.Text;
+    options: Schema.Attribute.Component<'quiz.options', true>;
+    question: Schema.Attribute.Blocks;
+  };
+}
+
+export interface QuizQuizInformation extends Struct.ComponentSchema {
+  collectionName: 'components_quiz_quiz_informations';
+  info: {
+    displayName: 'Quiz Information';
+  };
+  attributes: {
+    categories: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::category.category'
+    >;
+    date: Schema.Attribute.Date;
+    name: Schema.Attribute.String;
   };
 }
 
@@ -145,7 +231,13 @@ declare module '@strapi/strapi' {
     export interface ComponentSchemas {
       'article.article-information': ArticleArticleInformation;
       'article.quiz': ArticleQuiz;
+      'quiz.answer-attempt': QuizAnswerAttempt;
+      'quiz.free-quiz': QuizFreeQuiz;
       'quiz.options': QuizOptions;
+      'quiz.paid-quiz': QuizPaidQuiz;
+      'quiz.quiz-attempt': QuizQuizAttempt;
+      'quiz.quiz-body': QuizQuizBody;
+      'quiz.quiz-information': QuizQuizInformation;
       'shared.comment': SharedComment;
       'shared.media': SharedMedia;
       'shared.quote': SharedQuote;
